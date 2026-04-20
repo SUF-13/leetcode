@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+
+        if(p==NULL && q==NULL){
+            return true; // base case, leaf nodes reached
+        }
+        if(p==NULL || q==NULL){
+            return false; // one at leaf and the other is not, imbalance structure
+        }
+        if(p->val==q->val && isSameTree(p->right,q->right) && isSameTree(p->left,q->left)){
+            return true; // recursive call checking value of current nodes, then call to right and left child of the parent node.
+        }
+        return false;
+    }
+};
