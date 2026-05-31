@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int l=0;
+        int r=0;
+        int maxlen=0;
+        int len;
+        vector<int> arr (255, -1); 
+
+        while(r<s.size()){
+            // if character is present
+            if(arr[s[r]]!=-1){
+                // check if the character is in the window (substring)
+                if(arr[s[r]]>=l){
+                    l = arr[s[r]] + 1; // move the pointer
+                }
+            }
+            // if character is not present
+            len = r-l+1; // calculate substring length
+            maxlen = max(maxlen,len); // get maximum length
+            arr[s[r]] = r; // insert the character index in the array
+            r++; // move to next character
+        }
+
+        return maxlen;
+    }
+};
