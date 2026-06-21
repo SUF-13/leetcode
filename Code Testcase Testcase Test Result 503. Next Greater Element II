@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        
+        int n = nums.size();
+        vector<int> ans;
+        int i=0;
+        int j=0;
+    
+        while(i<n){
+            j++;
+            // if i and j are equal, it means the whole array is traversed and no greater element found
+            if((i%n) == (j%n)){
+                ans.push_back(-1);
+                i++;
+                j=i;
+            }
+            else if(nums[(i%n)]<nums[(j%n)]){
+                ans.push_back(nums[(j%n)]);
+                i++;
+                j=i;
+            }
+        }
+
+
+        return ans;
+
+    }
+};
