@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int rangeSum(vector<int>& nums, int n, int left, int right) {
+
+        vector<long long> subarraysum;
+
+        for(int i=0;i<nums.size();i++){
+            long long sum=0;
+            for(int j=i;j<nums.size();j++){
+                sum+=nums[j];
+                subarraysum.push_back(sum);
+            }
+        }
+
+        sort(subarraysum.begin(), subarraysum.end());
+    
+        long long sum=0;
+
+        for(int i=left-1;i<right;i++){
+            sum=(sum+subarraysum[i]) % 1000000007;
+        }
+
+        return sum;
+    }
+};
