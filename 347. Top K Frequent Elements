@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> freq;
+        vector<pair<int, int>> freqPair;
+       
+    // get the frequency of each element present in the array
+       for(int n: nums){
+        freq[n]++;
+       }
+
+    // push back the number and its frequency into a vector of pair
+       for(const auto& it: freq){
+        freqPair.push_back({it.first, it.second});
+       }
+    //  sort the vector of pair by the frequency of element
+        sort(freqPair.begin(), freqPair.end(), [](auto &a, auto &b){
+            return a.second>b.second;
+        });
+
+        vector<int> ans;
+    //  create the answer vector containing the top k elements
+        for(int i=0;i<k;i++){
+            ans.push_back(freqPair[i].first);
+        }
+
+        return ans;
+    }
+};
