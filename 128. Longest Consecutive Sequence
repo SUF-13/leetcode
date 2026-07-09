@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+
+        // sort the array in ascending array
+        sort(nums.begin(), nums.end());
+        
+        // if array has no element, so no sequence
+        if(nums.size()==0){
+            return 0;
+        }
+
+        int consec_seq=1;
+        int maxi=1;
+
+        for(int i=1;i<nums.size();i++){
+            // the current and previous element are equal, skip
+            if(nums[i]==nums[i-1]){
+                continue;
+            }
+            // if the current = previous + 1, increase the sequence count
+            else if(nums[i]==nums[i-1]+1){
+                consec_seq++;
+            }
+            // else reset the count to 1
+            else{
+                consec_seq=1;
+            }
+            // get the maximum
+            maxi = max(consec_seq, maxi);
+        }
+
+        return maxi;
+    }
+
+};
