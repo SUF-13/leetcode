@@ -1,0 +1,39 @@
+class Solution {
+public:
+    // returns a key for a given string, the key is comprised of the frequency of each element present in the string delimeted by $
+    string getHash(string st){
+        string hash;
+        vector<int> freq(26,0);
+
+        for(char ch: st){
+            freq[ch-'a']++;
+        }
+        // converting the integer to string and adding $ for delimation
+        for(int i=0;i<26;i++){
+            hash.append(to_string(freq[i]));
+            hash.append("$");
+        }
+
+        return hash;
+    }
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> ans;
+        unordered_map<string, int> mp;
+
+        for(string st: strs){
+            // get the key for the string 
+            string key = getHash(st);
+
+            // if key not found
+            // map the key to the size of the ans array
+            // and push an empty array
+            if(mp.find(key)==mp.end()){
+                mp[key] = ans.size();
+                ans.push_back({});
+            }
+            // if key present in the map, then push the string in ans at index mapped to the key 
+            ans[mp[key]].push_back(st);
+        }
+        return ans;
+    }
+};
