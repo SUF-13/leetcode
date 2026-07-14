@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int st = 0;
+        int en = nums.size()-1;
+
+        while(st<=en){
+            int mid = st +(en-st)/2;
+            // return the index where target found
+            if(nums[mid]==target){
+                return mid;
+            }
+            // if mid is greater than target search the min area which is left one
+            else if(nums[mid]>target){
+                en = mid - 1;
+            }
+            // if mid is less than target search the max area which is right one
+            else{
+                st = mid + 1;
+            }
+        }
+
+        return -1;
+    }
+};
