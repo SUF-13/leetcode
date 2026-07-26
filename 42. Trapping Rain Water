@@ -1,0 +1,54 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        // Prefix Array Appproach
+        // int res=0;
+        // vector<int> leftMax(height.size());
+        // vector<int> rightMax(height.size());
+
+        // // finding the leftMax for each index position
+        // leftMax[0] = height[0];
+        // for(int i=1;i<height.size();i++){
+        //     leftMax[i] = max(height[i], leftMax[i-1]);
+        // }
+
+        // // finding the rightMax for each index position
+        // rightMax[height.size()-1] = height[height.size()-1];
+        // for(int i=height.size()-2;i>=0;i--){
+        //     rightMax[i] = max(height[i], rightMax[i+1]);
+        // }
+
+        // // calculating the water trapped using leftMax and rightMax
+        // for(int i=0;i<height.size();i++){
+        //     int mid = (min(leftMax[i], rightMax[i]) - height[i]);
+        //     res+=mid;
+        // }
+
+        // return res;
+
+        // 2 Pointer Approach
+        int l = 0;
+        int r = height.size()-1;
+        int rightMax = 0;
+        int leftMax = 0;
+        int res=0;
+
+        while(l<r){
+            // calculating rightMax and leftMax at each position
+            rightMax = max(height[r], rightMax);
+            leftMax = max(height[l], leftMax);
+
+            // leftMax < rightMax, leftMax will be deciding the amount of water stored
+            if(leftMax<rightMax){
+                res += (leftMax - height[l]);
+                l++;
+            }
+
+            else{
+                res += (rightMax - height[r]);
+                r--;
+            }
+        }
+        return res;
+    }
+};
