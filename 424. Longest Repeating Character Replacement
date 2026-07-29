@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+
+        // BRUTE FORCE APPROACH
+        // The main crux is, (j-i+1) - max_f , this statement checks if the substring is valid or not.
+        // e.g lets say max_f = 3 (max frequency of letter 'A'). And the substring we are considering is AABAC, and k=2. So this substring is valid because (j-i+1) evalutes to 5 and max_f = 3, and subtracting them give 2. It means if B changes to A, the result will be maximized.
+        // int maxlen = 0;
+        // int max_f = 0;
+        // int changes=0;
+
+        // for(int i=0;i<s.size();i++){
+        //     int hash[26] = {0};
+        //     for(int j=i;j<s.size();j++){
+        //         hash[s[j] - 'A']++;
+
+        //         max_f = max(max_f, hash[s[j] - 'A']);
+
+        //         changes = (j-i+1) - max_f;
+
+        //         if(changes <= k){
+        //             maxlen = max(maxlen, j-i+1);
+        //         }
+        //         else{
+        //             break;
+        //         }
+        //     }
+        // }
+
+        // return maxlen;
+
+        // SLIDING WINDOW APPROACH
+
+        int hash[26] = {0}; // to get the frequency of each alphabet
+        int maxfreq = 0;
+        int maxlen=0;
+        int l=0;
+        int r=0;
+
+        while(r<s.size()){
+            hash[s[r] - 'A']++;
+            maxfreq = max(maxfreq, hash[s[r] - 'A']);
+
+            // trim down the alphabet from the left
+            while((r-l+1)-maxfreq > k){
+                hash[s[l] - 'A']--;
+                l++;
+            }
+            
+            maxlen = max(maxlen, (r-l+1));
+            r++;
+        }
+        return maxlen;
+    }
+};
