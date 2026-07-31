@@ -1,0 +1,66 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+
+        if(head==NULL || head->next == NULL){
+            return;
+        }
+
+        ListNode* slow=head;
+        ListNode* fast=head;
+
+        ListNode* prev1 = NULL;
+        // detecting middle node
+        while(fast!=NULL && fast->next!=NULL){
+            prev1 = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        prev1->next = NULL;
+
+        ListNode* curr = slow;
+        ListNode* prev = NULL;
+
+        ListNode* nxt;
+        // reverse the second part of the linked list
+        while(curr!=NULL){
+            nxt = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = nxt;
+        }
+
+        ListNode dum2 = ListNode(0);
+        ListNode* temp = &dum2;
+
+        ListNode* l1 = head;
+        ListNode* l2 = prev;
+        // merging the linked list
+        while(l1!=NULL && l2!=NULL){
+            temp->next = l1;
+            l1 = l1->next;
+            temp = temp->next;
+            temp->next = l2;
+            l2 = l2->next;
+            temp = temp->next;
+        }
+
+        while(l2!=NULL){
+            temp->next = l2;
+            l2 = l2->next;
+            temp = temp->next;
+        }
+        head = dum2.next;
+    }
+};
