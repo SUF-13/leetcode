@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int reverseBits(int n) {
+        // unsigned 32 bits
+        uint32_t ans=0;
+
+        for(int i=0;i<32;i++){
+            // left sift the ans making room for the new bits, extracting the last bit of the original number uisng bitwise and appending in the ans.
+            ans = (ans << 1) | (n&1);
+            // since last bit of original number is appending, using right shift removing the right most bit.
+            n = n >> 1;
+        }
+        return ans;
+    }
+};
