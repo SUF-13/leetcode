@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int getSum(int a, int b) {
+        int carry;
+        while(b!=0){
+            // getting the carry bits (where a and b are 1)
+            carry = a&b;
+            // sum a & b without carry
+            a = a^b;
+            // move carry to its right position
+            b = carry<<1;
+        }
+
+        return a;
+    }
+};
