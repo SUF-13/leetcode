@@ -1,0 +1,35 @@
+class Solution {
+public:
+    set<vector<int>> unique;
+    void combinSum(vector<int>& candidates, vector<int>& subans, vector<vector<int>>& ans, int target, int index){
+        // base case
+        if(index == candidates.size() || target<0){
+            return;
+        }
+
+        if(target == 0){
+            if(unique.find(subans) == unique.end()){
+                ans.push_back(subans);
+                unique.insert(subans);
+            }
+        }
+        subans.push_back(candidates[index]);
+        // select the element only once
+        combinSum(candidates, subans, ans, target-candidates[index], index+1);
+        // can select multiple times
+        combinSum(candidates, subans, ans, target-candidates[index], index);
+        subans.pop_back();
+        // no selection, skip
+        combinSum(candidates, subans, ans, target, index+1);
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int> subans;
+        int index=0;
+
+        combinSum(candidates, subans, ans, target, index);
+
+        return ans;
+    }
+};
