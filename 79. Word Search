@@ -1,0 +1,42 @@
+class Solution {
+public:
+
+    bool check(vector<vector<char>>& board, string word, int i, int j, int ind){
+        if(ind == word.size()){
+            return true;
+        }
+
+        if((i >= board.size() || i<0 ) || (j >= board[i].size() || j<0)){
+            return false;
+        }
+        // the char we are at board doesnot match with the word.
+        if(word[ind] != board[i][j]){
+            return false;
+        }
+
+        char temp = board[i][j];
+        // mark as visited
+        board[i][j] = '#';
+
+        bool result = check(board, word, i+1, j, ind+1) || check(board, word, i, j+1, ind+1) || check(board, word, i-1, j, ind+1) || check(board, word, i, j-1, ind+1);
+
+        board[i][j] = temp;
+
+        return result;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {
+        int i,j = 0;
+        int ind=0;
+        
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[i].size();j++){
+                if(check(board, word, i, j, ind)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+};
