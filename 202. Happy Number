@@ -1,0 +1,31 @@
+class Solution {
+public:
+
+    int getsum(int a){
+        int rem=-1;
+        int sum=0;
+        while(a>0){
+            rem = a%10;
+            a = a/10;
+            sum += (rem*rem);
+        }
+
+        return sum;
+    }
+
+    bool isHappy(int n) {
+        set<int> seen;
+
+        // use set to store the already seen numbers, and compute sum only when a number is not present in the set.
+        while(n!=1 && seen.find(n) == seen.end()){
+            seen.insert(n);
+            n = getsum(n);
+        }
+
+        if(n==1){
+            return true;
+        }
+
+        return false;
+    }
+};
