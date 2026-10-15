@@ -1,0 +1,57 @@
+class DetectSquares {
+public:
+    map<pair<int, int>, int> points_freq;
+    
+    DetectSquares() {
+        
+    }
+    
+    void add(vector<int> point) {
+        pair<int, int> inter;
+        inter.first = point[0];
+        inter.second = point[1];
+        points_freq[inter]++;
+    }
+    
+    int count(vector<int> point) {
+        int cnt=0;
+        int x = point[0];
+        int y = point[1];
+
+        for(auto &it: points_freq){
+            pair<int, int> point = it.first;
+            int freq = it.second;
+
+            // skip same points or points not on the same axis
+            if(x!=point.first || y==point.second){
+                continue;
+            }
+            // find side length using the points lying on the same axis
+            int side = abs(y - point.second);
+
+            // finding the two points that would make the square in the map, and setting the count
+            for(int dir:{-1,1}){
+                int _x = x + (dir * side);
+
+                pair<int, int> p1 = {_x, y};
+                pair<int, int> p2 = {_x, point.second};
+
+                auto pnt1 = points_freq.find(p1);
+                auto pnt2 = points_freq.find(p2);
+                
+                if(pnt1!=points_freq.end() && pnt2!=points_freq.end()){
+                    cnt += (freq * pnt1->second * pnt2->second);
+                }
+            }
+
+        }
+        return cnt;
+    }
+};
+
+/**
+ * Your DetectSquares object will be instantiated and called as such:
+ * DetectSquares* obj = new DetectSquares();
+ * obj->add(point);
+ * int param_2 = obj->count(point);
+ */
