@@ -1,0 +1,114 @@
+class LRUCache {
+public:
+
+    class Node{
+        public:
+            int key;
+            int value;
+            Node* prev;
+            Node* next;
+
+            Node(int k, int v){
+                this->key = k;
+                this->value = v;
+                this->next = NULL;
+                this->prev = NULL;
+            }
+    };   
+
+    Node* head = new Node(-1, -1);
+    Node* tail = new Node(-1, -1);
+
+    unordered_map<int, Node*>  mp;
+    int cap;
+
+    // insert a node right after head(to specify it is most recentlt used)
+    void add_node(Node* nde){
+        Node* temp = head->next;
+
+        nde->next = temp;
+        nde->prev = head;
+        head->next = nde;
+        temp->prev = nde;
+    }
+
+    // remove a node from a specify location, by using next & prev pointers
+    void delete_node(Node* delNode){
+        
+        Node* pre = delNode->prev;
+        Node* nxt = delNode->next;
+
+        pre->next = nxt;
+        nxt->prev = pre;
+    }
+
+    LRUCache(int capacity) {
+        cap = capacity;
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    int get(int key) {
+        // return the node value at a key, update the doubly linked list.
+        if(mp.find(key)!=mp.end()){
+            Node* res = mp[key];
+            int ans = res->value;
+
+            delete_node(res);
+            add_node(res);
+
+            mp[key] = head->next;
+
+            return ans;
+        }
+
+        return -1;
+    }
+    
+    void put(int key, int value) {
+        // if key exist, update the node & map entry
+        if(mp.find(key)!=mp.end()){
+            Node* nde = mp[key];
+            mp.erase(key);
+            delete_node(nde);
+            nde->value = value;
+            add_node(nde);
+            mp[key] = head->next;
+            return;
+        }
+        // if map is full , evict and insert.
+        if(mp.size()==cap){
+            Node* lst = tail->prev;
+            mp.erase(lst->key);
+            delete_node(lst);
+            delete lst;
+            add_node(new Node(key, value));
+            mp[key] = head->next;
+            return;
+        }
+        // if capacity left, just insert
+        else if(mp.size()<cap){
+            add_node(new Node(key, value));
+            mp[key] = head->next;
+            return;
+        }
+
+    }
+
+    // free dynamically allocated space
+    ~LRUCache(){
+        Node* curr = head;
+        while(curr!=NULL){
+            Node* nxt = curr->next;
+            delete curr;
+            curr = nxt;
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
