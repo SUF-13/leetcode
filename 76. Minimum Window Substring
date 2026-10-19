@@ -1,0 +1,50 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int l=0;
+        int r=0;
+        int cnt=0;
+        int st_idx = -1;
+        int min_len = INT_MAX;
+        
+        int hsh[256] = {0};
+
+        // storing the frequency of letters required in the substring, using t
+        for(int i=0;i<t.size();i++){
+            hsh[t[i]]++;
+        }
+
+        while(r<s.size()){
+            // if the frequency greater than zero (the letter is required) so increase the count to show that the letter is consumed.  
+            if(hsh[s[r]]>0){
+                cnt++;
+            }
+            // consuming every letter appearing
+            hsh[s[r]]--;
+
+            // when the cou t equals the size of t, all letters required are present in window
+            while(cnt == t.size()){
+                // updating the window length
+                if((r-l+1)<min_len){
+                    min_len = r-l+1;
+                    st_idx = l;
+                }
+                // shrinking the window from left
+                // increasing the frequency (represents the character is unused or excluded from window)
+                hsh[s[l]]++;
+                // if after excluding a character the frequency increase, it means a letter which is required in window is removed, so decrease the count
+                if(hsh[s[l]]>0){
+                    cnt--;
+                }
+                l++;
+            }
+            r++;
+        }
+
+        if(st_idx == -1){
+            return "";
+        }
+
+        return s.substr(st_idx, min_len);
+    }
+};
