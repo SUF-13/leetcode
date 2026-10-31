@@ -1,0 +1,37 @@
+class MinStack:
+    # the approach 
+    # since push and pop and top can be performed in constant time, so just append in stack(orginially list) for push, and pop from stack for pop, and return the top element for top
+    # but getting minimum (we cannot get it using one stack in constant time), so maintain 2 stack, one stack(for doing push, pop and top) and the other for (getting minimum), on each push on the stack we pushed the minimum element (from elements pushed on stack) on to the minStack. 
+
+    def __init__(self):
+        self.stack = []
+        self.minStack = []        
+
+    def push(self, value: int) -> None:
+        self.stack.append(value)
+        if not self.minStack:
+            self.minStack.append(value)
+        else:
+            if self.minStack[-1] > value:
+                self.minStack.append(value)
+            else:
+                self.minStack.append(self.minStack[-1])
+
+    def pop(self) -> None:
+        self.stack.pop()
+        self.minStack.pop()
+
+    def top(self) -> int:
+        # return self.stack[-1]
+        return self.stack[len(self.stack) - 1]
+
+    def getMin(self) -> int:
+        return self.minStack[-1]
+
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(value)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
