@@ -1,0 +1,29 @@
+class Solution:
+    def evalRPN(self, tokens: list[str]) -> int:
+        # approach
+        # pushing the elements(numbers) from the tokens on the stack, if an operator is encountered, pop the last two elements from the stack, from the operation on the element and store in the result.
+        # pushing result on the stack again so later evaluation can use it.
+        # for truncating the division result is wrapped in int 
+        st = []
+        result = None
+        for token in tokens:
+            if token not in ('+','-','*','/'):
+                st.append(token)
+            else:
+                op = token
+                b = st.pop()
+                a = st.pop()
+
+                if op == '+':
+                    result = int(a)+int(b)
+                elif op == '-':
+                    result = int(a)-int(b)
+                elif op == '*':
+                    result = int(a)*int(b)
+                else:
+                    result = int(int(a)/int(b))
+
+                st.append(result)
+        
+        return int(st[-1])
+        
