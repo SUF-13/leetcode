@@ -1,0 +1,18 @@
+class Solution:
+    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:
+        # approach
+        # store the indices on the stack
+        # whenever the current temp is found greater than the stack's top element, pop that element to get the no of days.
+        ans = [0] *(len(temperatures))
+        st = []
+
+        for idx, temp in enumerate(temperatures):
+            # iterating over the stack until stack is not empty and temperature on the top of stack is less than current temperature.
+            while st and temperatures[st[-1]] < temp:
+                ind = st.pop()
+                ans[ind] = (idx-ind)
+
+            st.append(idx)
+        
+
+        return ans
