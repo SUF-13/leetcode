@@ -1,0 +1,19 @@
+class Solution:
+    def carFleet(self, target: int, position: list[int], speed: list[int]) -> int:
+        # creating position, time pair list. sorting the list and iterating in reverse order. calculating time for each. comparing times to get the fleet.
+
+        # creating a list of pair of position and speed
+        pos_sp = [(ps, sp) for ps, sp in zip(position, speed)]
+        st = []
+        # iterating the sorted in reverse order
+        for ps_sp in sorted(pos_sp)[::-1]:
+            # appending the time to reach target for car in stack
+            ps = ps_sp[0]
+            sp = ps_sp[1]
+            st.append((target-ps)/sp)
+            # if the time appended for current car is less than its previously added car time, then the current car will collide so removing that.
+            if len(st)>=2 and st[-1]<=st[-2]:
+                st.pop()
+
+
+        return len(st)
